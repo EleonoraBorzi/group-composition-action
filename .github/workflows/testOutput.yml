@@ -1,0 +1,35 @@
+
+name: py
+    
+    #on:
+    #  schedule:
+    #    - cron: "0 0 * * *" #runs at 00:00 UTC everyday
+on:
+    workflow_dispatch:
+    
+jobs:
+    build:
+      runs-on: ubuntu-latest
+    
+      steps:
+          - name: checkout repo content
+            uses: actions/checkout@v2 # checkout the repository content to github runner.
+          - name: setup python
+            uses: actions/setup-python@v2
+            with:
+              python-version: 3.8 #install the python needed
+          - name: execute py script # run the run.py to get the latest data
+            run: |
+              python comment.py > comment.txt
+          - name: Upload output file
+            uses: actions/upload-artifact@v2
+            with:
+              name: output-log-file
+              path: output.log
+          - name: Create comment
+            uses: peter-evans/create-or-update-comment@v1
+            with:
+              issue-number: 2 #${{github.event.number}}
+              name: comment
+              path: comment.txt
+  
