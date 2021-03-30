@@ -21,15 +21,10 @@ jobs:
           - name: execute py script # run the run.py to get the latest data
             run: |
               python comment.py > comment.txt
-          - name: Upload output file
-            uses: actions/upload-artifact@v2
-            with:
-              name: output-log-file
-              path: output.log
           - name: Create comment
             uses: peter-evans/create-or-update-comment@v1
             with:
               issue-number: 2 #${{github.event.number}}
               name: comment
-              path: comment.txt
+              body: comment.txt
   
