@@ -8,7 +8,7 @@ on:
     workflow_dispatch:
     
 jobs:
-    build:
+    runningPython:
       runs-on: ubuntu-latest
     
       steps:
@@ -21,10 +21,15 @@ jobs:
           - name: execute py script # run the run.py to get the latest data
             run: |
               python comment.py > comment.txt
+    
+    commentCreated:
+        runs-on: ubuntu-latest
+        needs: runningPython
+        steps:
+  
           - name: Create comment
             uses: peter-evans/create-or-update-comment@v1
             with:
-              issue-number: 2 #${{github.event.number}}
-              name: comment
-              body: comment.txt
-  
+                issue-number: 2 #${{github.event.number}}
+                body: |
+                    ${{comment.py}}
