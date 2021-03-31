@@ -10,7 +10,8 @@ on:
 jobs:
     runningPython:
       runs-on: ubuntu-latest
-    
+      outputs:
+        comment: ${{ steps.step1.outputs.comment }}
       steps:
           - name: checkout repo content
             uses: actions/checkout@v2 # checkout the repository content to github runner.
@@ -18,13 +19,11 @@ jobs:
             uses: actions/setup-python@v2
             with:
               python-version: 3.8 #install the python needed
-          - name: execute py script # run the run.py to get the latest data
+          - id: step1
+            name: execute py script # run the run.py to get the latest data
             run: | 
                 output=$(python comment.py v2.21)
-                output="${output//'%'/'%25'}"
-                echo "::set-output name=changelog::$output"
-          - name: Print changelog
-            run: echo "${{ steps.step1.outputs.changelog }}"
+                echo "::set-output name=comment::$output"
     
     commentCreated:
         runs-on: ubuntu-latest
@@ -35,4 +34,4 @@ jobs:
             with:
                 issue-number: 2 #${{github.event.number}}
                 body: |
-                    ${{needs.runningPython.steps.step1.outputs.changelog }}
+                    ${{needs.runningPython.outputs.comment }}
