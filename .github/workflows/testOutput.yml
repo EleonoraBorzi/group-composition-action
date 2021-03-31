@@ -23,7 +23,7 @@ jobs:
             name: execute py script # run the run.py to get the latest data
             run: | 
                 output=$(python comment.py v2.21)
-                echo '::set-output name=comment::$output'
+                echo '::set-output name=comment::{output}'
     
     commentCreated:
         runs-on: ubuntu-latest
