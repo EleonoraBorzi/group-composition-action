@@ -37,5 +37,5 @@ jobs:
               with:
                 issue-number: 2 #${{github.event.number}}
                 body: |
-                  echo ${{needs.runPythonScript.outputs.output1}}
-                reactions: eyes
+                    ${{needs.runPythonScript.outputs.output1}}
+                reactions: eyes, heart, hooray, laugh
