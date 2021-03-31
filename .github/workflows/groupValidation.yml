@@ -1,0 +1,41 @@
+name: groupValidation
+    
+
+on:
+    workflow_dispatch:
+    #pull_request_target:
+    
+jobs:
+    runPythonScript:
+      runs-on: ubuntu-latest
+      outputs:
+        output1: ${{ steps.getComment.outputs.test }}
+        output2: "some random text"
+    
+      steps:
+          - name: checkout repo content
+            uses: actions/checkout@v2 # checkout the repository content to github runner.
+          - name: setup python
+            uses: actions/setup-python@v2
+            with:
+              python-version: 3.8 #install the python needed
+          - name: execute py script # run the run.py to get the latest data
+            id: getComment
+            run: python comment.py
+        
+    postComment:
+        runs-on: ubuntu-latest
+        needs: runPythonScript
+        steps:
+            - name: access output variable
+              run: |
+                echo "The output is: "
+                echo ${{needs.runPythonScript.outputs.output1}}
+                echo ${{needs.runPythonScript.outputs.output2}}
+            - name: Create comment
+              uses: peter-evans/create-or-update-comment@v1
+              with:
+                issue-number: 2 #${{github.event.number}}
+                body: |
+                  echo ${{needs.runPythonScript.outputs.output1}}
+                reactions: eyes
