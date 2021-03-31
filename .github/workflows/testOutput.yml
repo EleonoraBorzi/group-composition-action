@@ -35,4 +35,4 @@ jobs:
             with:
                 issue-number: 2 #${{github.event.number}}
                 body: |
-                    ${{runningPython.steps.step1.outputs.changelog }}
+                    ${{needs.runningPython.steps.step1.outputs.changelog }}
