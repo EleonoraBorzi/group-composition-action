@@ -34,4 +34,4 @@ jobs:
                 issue-number: 2 #${{github.event.number}}
                 body: |
                     Eleonora
-                    ${{needs.runningPython.outputs.comment }}
+                    ${{needs.runningPython.outputs.output }}
