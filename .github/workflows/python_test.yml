@@ -9,6 +9,9 @@ on:
 jobs:
     build:
       runs-on: ubuntu-latest
+      outputs:
+        output1: ${{ steps.py.outputs.test }}
+        output2: ":)))))"
     
       steps:
           - name: checkout repo content
@@ -19,8 +22,7 @@ jobs:
               python-version: 3.8 #install the python needed
           - name: execute py script # run the run.py to get the latest data
             id: py
-            run: |
-              python comment.py
+            run: python comment.py
             #env:
             #  key: ${{ secrets.key }} # if run.py requires passwords..etc, set it as secrets
           #- name: export index
@@ -32,4 +34,5 @@ jobs:
             - name: access output variable
               run: |
                 echo "The output is: "
-                echo  ${{needs.build.outputs.test}}
+                echo ${{needs.build.outputs.output1}}
+                echo ${{needs.build.outputs.output2}}
