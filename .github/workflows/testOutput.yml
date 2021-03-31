@@ -23,10 +23,7 @@ jobs:
             name: execute py script # run the run.py to get the latest data
             run: | 
                 output=$(python comment.py v2.21)
-                output="${output//'%'/'%25'}"
-                output="${output//$'\n'/'%0A'}"
-                output="${output//$'\r'/'%0D'}"
-                echo "::set-output name=comment::$output"
+                echo '::set-output name=comment::$output'
     
     commentCreated:
         runs-on: ubuntu-latest
