@@ -15,16 +15,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Print root folder of upstream
         with:
           repository: 'EleonoraBorzis/group-composition-action'
-          run: ls -a
+      - name: Print root folder of upstream
+        run: ls -a
           
   checkout_fork:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Print root folder of fork
         with:
           repository: 'hengque/group-composition-action'
-          run: ls -a
+      - name: Print root folder of fork
+        run: ls -a
