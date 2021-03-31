@@ -19,14 +19,17 @@ jobs:
             with:
               python-version: 3.8 #install the python needed
           - name: execute py script # run the run.py to get the latest data
-            run: |
-              python comment.py > comment.txt
+            run: | 
+                output=$(python comment.py v2.21)
+                output="${output//'%'/'%25'}"
+                echo "::set-output name=changelog::$output"
+          - name: Print changelog
+            run: echo "${{ steps.step1.outputs.changelog }}"
     
     commentCreated:
         runs-on: ubuntu-latest
         needs: runningPython
         steps:
-  
           - name: Create comment
             uses: peter-evans/create-or-update-comment@v1
             with:
