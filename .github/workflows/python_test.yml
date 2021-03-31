@@ -1,4 +1,4 @@
-name: py
+name: Python and output testing
     
     #on:
     #  schedule:
@@ -11,7 +11,7 @@ jobs:
       runs-on: ubuntu-latest
       outputs:
         output1: ${{ steps.py.outputs.test }}
-        output2: ":)))))"
+        output2: "some random text"
     
       steps:
           - name: checkout repo content
