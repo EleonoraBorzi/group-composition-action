@@ -9,8 +9,9 @@ jobs:
       runs-on: ubuntu-latest
       env:
         output2: "some random text"
-    run: |
-          echo "Hello"
+      steps:
+        - run: echo Hello
+   
     
             #  key: ${{ secrets.key }} # if run.py requires passwords..etc, set it as secrets
           #- name: export index
