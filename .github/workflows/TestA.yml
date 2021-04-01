@@ -9,6 +9,7 @@ jobs:
         runs-on: ubuntu-latest
         env:
             ID: ${{ github.event.comment.id }}
+            test: japp
         outputs:
             # pull_request: base|head: repo: full_name
             headRepo: ${{ steps.extract.outputs.headRepo }}
@@ -23,7 +24,9 @@ jobs:
             - uses: actions/checkout@v2
             - name: Show extracted info
               run: |
+                    echo "Working"
                     echo "$ID"
+                    echo "$test"
   
         
         
