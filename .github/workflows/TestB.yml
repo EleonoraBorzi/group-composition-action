@@ -17,7 +17,7 @@ jobs:
           pwd
           echo ${GOPATH}
           echo ${GOROOT}
-          content=`cat ${GOPATH}/data.json`
+          content=`cat ./home/runner/work/group-composition-action/group-composition-action/data.json`
           # the following lines are only required for multi line json
           content="${content//'%'/'%25'}"
           content="${content//$'\n'/'%0A'}"
