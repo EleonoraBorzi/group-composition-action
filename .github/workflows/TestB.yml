@@ -11,10 +11,11 @@ jobs:
   testJob:
     name: Test
     runs-on: ubuntu-latest
-    steps:
+    steps: 
+      - uses: actions/checkout@v2
       - id: set_var
         run: |
-          content= $(cat /home/runner/work/group-composition-action/group-composition-action/data.json)
+          content= $(cat ./data.json)
           # the following lines are only required for multi line json
           content="${content//'%'/'%25'}"
           content="${content//$'\n'/'%0A'}"
