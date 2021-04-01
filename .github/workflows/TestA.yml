@@ -1,0 +1,18 @@
+
+name: Test A
+    
+on:
+    workflow_dispatch:
+    
+jobs:
+    test:
+      runs-on: ubuntu-latest
+      env:
+        output2: "some random text"
+    run: |
+          echo "Hello"
+    
+            #  key: ${{ secrets.key }} # if run.py requires passwords..etc, set it as secrets
+          #- name: export index
+          #  .... # use crosponding script or actions to help export.
+         # echo test, and deploy your project.
