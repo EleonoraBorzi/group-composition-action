@@ -31,7 +31,7 @@ jobs:
               uses: notiz-dev/github-action-json-property@release
               with: 
                path: 'gh-payload.json'
-               prop_path: 'default_branch'
+               prop_path: 'base'
             - run: |
                     echo ${{steps.headBranch.outputs.prop}}
   
