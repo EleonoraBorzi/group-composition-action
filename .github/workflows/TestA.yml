@@ -2,26 +2,29 @@
 name: Test A
     
 on:
-    workflow_dispatch:
+    [push, pull_request]
     
 jobs:
-    test:
-      runs-on: ubuntu-latest
-      env:
-        var: Testing 
+    extractPayloadData:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: Dovyski/payload-info-action@master
+              with:
+                filter_push: '.commits[].author'
+                filter_pull_request: '.pull_request.commits'
+            - id: saveJson
+              run: |
+                githubjson=`cat $GITHUB_EVENT_PATH`
+                baseBranch = `echo "$(jq -r '.pull_request.base.ref' <<< "$githubjson")"`
+                headBranch = `echo "$(jq -r '.pull_request.head.ref' <<< "$githubjson")"`
+                baseRepo = `echo "$(jq -r '.pull_request.base.repo.full_name"' <<< "$githubjson")"`
+                headRepo = `echo "$(jq -r '.pull_request.head.repo.full_name"' <<< "$githubjson")"`
+  
+            - run: |
+                    echo $baseBranch
+                    echo $headBranch
+                    echo $baseRepo
+                    echo $headRepo
+  
         
-      steps:
-         - shell: bash
-           run: |
-                $Testing > testingArt.txt
-         - name: Upload artifact
-           uses: actions/upload-artifact@v2
-           with:
-             name: testingArt
-             path: testingArt.txt
-   
-    
-            #  key: ${{ secrets.key }} # if run.py requires passwords..etc, set it as secrets
-          #- name: export index
-          #  .... # use crosponding script or actions to help export.
-         # echo test, and deploy your project.
