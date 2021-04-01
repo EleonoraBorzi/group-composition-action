@@ -2,24 +2,40 @@
 name: Test A
     
 on:
-    workflow_dispatch:
+    [push, pull_request]
     
 jobs:
-    test:
-      runs-on: ubuntu-latest
-      env:
-        var: Testing 
+    extractPayloadData:
+        runs-on: ubuntu-latest
+        outputs:
+            # pull_request: base|head: repo: full_name
+            headRepo: ${{ steps.extract.outputs.headRepo }}
+            baseRepo: ${{ steps.extract.outputs.baseRepo }}
+            # pull_request: base|head: ref|sha
+            headRef: ${{ steps.extract.outputs.headRef }}
+            baseRef: ${{ steps.extract.outputs.baseRef }}
+            # pull_request: number:
+            num: ${{ steps.extract.outputs.num }}
+            fileChanges: ${{steps.file_changes.outputs.files}}
+        steps:
+            - uses: actions/checkout@v1
+            - name: Extract info
+              uses: ./ # Uses an action in the root directory
+              id: infos
+              with:
+                 filter_push: '.commits[].author'
+                 filter_pull_request: '.pull_request.commits'
+                 # Use the output from the `infos` step
+            - name: Show extracted info
+              run: |
+                    echo "Infos"
+                    echo "value: ${{ steps.infos.outputs.value }}"
+                    echo "branch: ${{ steps.infos.outputs.branch }}"
+                    echo "pull_request: ${{ steps.infos.outputs.pull_request }}"
         
-      steps:
-         - shell: bash
-           run: |
-                $Testing > testingArt.txt
-         - name: Upload artifact
-           uses: actions/upload-artifact@v2
-           with:
-             name: testingArt
-             path: testingArt.txt
-   
+        
+        
+            
     
             #  key: ${{ secrets.key }} # if run.py requires passwords..etc, set it as secrets
           #- name: export index
