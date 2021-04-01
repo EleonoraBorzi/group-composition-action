@@ -32,7 +32,9 @@ jobs:
               with: 
                path: 'gh-payload.json'
                prop_path: 'after'
-            - run: echo ${{steps.version.outputs.prop}}
+            - run: |
+                    echo ${{steps.version.outputs.prop}}
+                    echo ${{steps.version.outputs.branch}}
   
         
         
