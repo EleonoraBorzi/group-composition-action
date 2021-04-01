@@ -16,6 +16,8 @@ jobs:
             # pull_request: number:
             num: ${{ steps.extract.outputs.num }}
         steps:
+            - id: file_changes
+              uses: trilom/file-changes-action@v1.2.3
             - name: Extract event paylaod data
               id: extract
               # $GITHUB_EVENT_PATH
@@ -48,6 +50,7 @@ jobs:
             - name: run
               id: run
               run: |
+                echo "${{needs.extractPayloadData.outputs.files }}
                 echo "::set-output name=folderName::test-test"
                 echo "::set-output name=idsMatch::true"
                 
