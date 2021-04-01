@@ -7,32 +7,21 @@ on:
 jobs:
     extractPayloadData:
         runs-on: ubuntu-latest
-        env:
-            ID: ${{ github.event.comment.id }}
-            test: japp
-        outputs:
-            # pull_request: base|head: repo: full_name
-            headRepo: ${{ steps.extract.outputs.headRepo }}
-            baseRepo: ${{ steps.extract.outputs.baseRepo }}
-            # pull_request: base|head: ref|sha
-            headRef: ${{ steps.extract.outputs.headRef }}
-            baseRef: ${{ steps.extract.outputs.baseRef }}
-            # pull_request: number:
-            num: ${{ steps.extract.outputs.num }}
-            fileChanges: ${{steps.file_changes.outputs.files}}
         steps:
             - uses: actions/checkout@v2
             - uses: Dovyski/payload-info-action@master
               with:
                 filter_push: '.commits[].author'
                 filter_pull_request: '.pull_request.commits'
-            - id: set_var
+            - id: saveJson
               run: |
                  content= cat gh-payload.json
                  content="${content//'%'/'%25'}"
                  content="${content//$'\n'/'%0A'}"
                  content="${content//$'\r'/'%0D'}"
-                 echo "${{fromJson(content).after}}"
+                 echo "::set-output name=packageJson::$content"
+            - name: get Variables 
+                echo "${{fromJson(steps.saveJson.outputs.packageJson).after}}"
             - name: get version
               id: headBranch
               uses: notiz-dev/github-action-json-property@release
