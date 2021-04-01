@@ -16,7 +16,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: testingArt
-          path: testingArt.txt
       - run: |
-          value=`cat testingArt.txt`
+          value= cat testingArt.txt
           echo $value
