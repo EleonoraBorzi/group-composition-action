@@ -27,14 +27,13 @@ jobs:
                 filter_push: '.commits[].author'
                 filter_pull_request: '.pull_request.commits'
             - name: get version
-              id: version
+              id: headBranch
               uses: notiz-dev/github-action-json-property@release
               with: 
                path: 'gh-payload.json'
-               prop_path: 'after'
+               prop_path: 'default_branch'
             - run: |
-                    echo ${{steps.version.outputs.prop}}
-                    echo ${{steps.version.outputs.branch}}
+                    echo ${{steps.headBranch.outputs.prop}}
   
         
         
