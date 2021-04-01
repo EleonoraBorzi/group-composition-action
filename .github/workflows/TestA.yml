@@ -14,17 +14,16 @@ jobs:
                 filter_push: '.commits[].author'
                 filter_pull_request: '.pull_request.commits'
             - id: saveJson
-              env:
-                baseBranch: echo "$(jq -r '.pull_request.base.ref' <<< "$githubjson")"
               run: |
                 githubjson=`cat $GITHUB_EVENT_PATH`
-                baseBranchS = `echo "$(jq -r '.pull_request.base.ref' <<< "$githubjson")"`
+                baseBranch = `echo "$(jq -r '.pull_request.base.ref' <<< "$githubjson")"`
+                echo "::set-output name=baseBr::$baseBranch"
                 headBranch = `echo "$(jq -r '.pull_request.head.ref' <<< "$githubjson")"`
                 baseRepo = `echo "$(jq -r '.pull_request.base.repo.full_name"' <<< "$githubjson")"`
                 headRepo = `echo "$(jq -r '.pull_request.head.repo.full_name"' <<< "$githubjson")"`
   
             - run: |
-                    echo "$baseBranch"
+                    echo "${{steps.saveJson.outputs.baseBr}}"
                     echo $headBranch
                     echo $baseRepo
                     echo $headRepo
