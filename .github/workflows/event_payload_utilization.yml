@@ -1,0 +1,98 @@
+name: Utilize Event Payload  
+
+on:
+    pull_request_target:
+    
+jobs:
+    extractPayloadData:
+        runs-on: ubuntu-latest
+        outputs:
+            # pull_request: base|head: repo: full_name
+            headRepo: ${{ steps.extract.outputs.headRepo }}
+            baseRepo: ${{ steps.extract.outputs.baseRepo }}
+            # pull_request: base|head: ref|sha
+            headRef: ${{ steps.extract.outputs.headRef }}
+            baseRef: ${{ steps.extract.outputs.baseRef }}
+            # pull_request: number:
+            num: ${{ steps.extract.outputs.num }}
+        steps:
+            - name: Extract event paylaod data
+              id: extract
+              # $GITHUB_EVENT_PATH
+              run: |
+                echo "::set-output name=headRepo::hengque/group-composition-action"
+                echo "::set-output name=baseRepo::EleonoraBorzis/group-composition-action"
+                echo "::set-output name=headBranch::main"
+                echo "::set-output name=baseBranch::main"
+                echo "::set-output name=num::7"
+                
+            
+    headRepo: 
+        runs-on: ubuntu-latest
+        needs: extractPayloadData
+        outputs:
+            folderName: ${{ steps.run.outputs.folderName }}
+            idsMatch: ${{ steps.run.outputs.idsMatch }}
+        steps:
+            - name: checkout repo
+            - uses: actions/checkout@v2
+              with:
+                # Repository name with owner. For example, actions/checkout
+                # Default: ${{ github.repository }}
+                repository: ''
+
+                # The branch, tag or SHA to checkout. When checking out the repository that
+                # triggered a workflow, this defaults to the reference or SHA for that event.
+                # Otherwise, uses the default branch.
+                ref: ''
+            - name: run
+              id: run
+              run: |
+                echo "::set-output name=folderName::test-test"
+                echo "::set-output name=idsMatch::true"
+                
+    baseRepo: 
+        runs-on: ubuntu-latest
+        needs: [extractPayloadData, headRepo]
+        outputs:
+            report: ${{ steps.run.outputs.folderName }}
+        steps:
+            - name: checkout repo
+            - uses: actions/checkout@v2
+              with:
+                # Repository name with owner. For example, actions/checkout
+                # Default: ${{ github.repository }}
+                repository: ${{needs.extractPayloadData.outputs.baseRepo}}
+
+                # The branch, tag or SHA to checkout. When checking out the repository that
+                # triggered a workflow, this defaults to the reference or SHA for that event.
+                # Otherwise, uses the default branch.
+                ref: ${{needs.extractPayloadData.outputs.baseRef}}
+            - name: setup python
+              uses: actions/setup-python@v2
+              with:
+                python-version: 3.8 #install the python needed
+            - name: run
+              id: run
+              run: |
+                echo "::set-output name=folderName::test-test"
+                echo "::set-output name=idsMatch::true"
+
+    postComment:
+        runs-on: ubuntu-latest
+        needs: [extractPayloadData, headRepo, baseRepo]
+        steps:
+            - name: access output variable
+              run: |
+                echo "The output is: "
+                echo ${{needs.runPythonScript.outputs.output1}}
+                echo ${{needs.runPythonScript.outputs.output2}}
+            - name: Create comment
+              uses: peter-evans/create-or-update-comment@v1
+              with:
+                issue-number: ${{needs.extractPayloadData.outputs.num}}
+                body: |
+                    ${{needs.baseRepo.outputs.report}}
+                reactions: eyes, heart, hooray, laugh
+
+    
