@@ -7,6 +7,8 @@ on:
 jobs:
     extractPayloadData:
         runs-on: ubuntu-latest
+        env:
+            ID: ${{ github.event.comment.id }}
         outputs:
             # pull_request: base|head: repo: full_name
             headRepo: ${{ steps.extract.outputs.headRepo }}
@@ -21,7 +23,6 @@ jobs:
             - uses: actions/checkout@v2
             - name: Show extracted info
               run: |
-                    ID=${{ github.event.comment.id }}
                     echo "$ID"
   
         
