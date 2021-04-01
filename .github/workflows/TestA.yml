@@ -21,7 +21,7 @@ jobs:
                  content="${content//$'\r'/'%0D'}"
                  echo "::set-output name=packageJson::$content"
             - name: get Variables 
-                echo "${{fromJson(steps.saveJson.outputs.packageJson).after}}"
+              run: echo "${{fromJson(steps.saveJson.outputs.packageJson).after}}"
             - name: get version
               id: headBranch
               uses: notiz-dev/github-action-json-property@release
