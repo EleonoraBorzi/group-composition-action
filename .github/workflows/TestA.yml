@@ -7,10 +7,13 @@ on:
 jobs:
     test:
       runs-on: ubuntu-latest
+      env:
+        var: Testing 
+        
       steps:
          - shell: bash
            run: |
-                "testing" > testingArt.txt
+                $Testing > testingArt.txt
          - name: Upload artifact
            uses: actions/upload-artifact@v2
            with:
