@@ -31,7 +31,7 @@ jobs:
               uses: notiz-dev/github-action-json-property@release
               with: 
                path: 'gh-payload.json'
-               prop_path: 'base'
+               prop_path: 'auto_merge'
             - run: |
                     echo ${{steps.headBranch.outputs.prop}}
   
