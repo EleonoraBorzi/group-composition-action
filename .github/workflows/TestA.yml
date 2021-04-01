@@ -19,19 +19,10 @@ jobs:
             fileChanges: ${{steps.file_changes.outputs.files}}
         steps:
             - uses: actions/checkout@v1
-            - name: Extract info
-              uses: ./ # Uses an action in the root directory
-              id: infos
-              with:
-                 filter_push: '.commits[].author'
-                 filter_pull_request: '.pull_request.commits'
-                 # Use the output from the `infos` step
             - name: Show extracted info
               run: |
-                    echo "Infos"
-                    echo "value: ${{ steps.infos.outputs.value }}"
-                    echo "branch: ${{ steps.infos.outputs.branch }}"
-                    echo "pull_request: ${{ steps.infos.outputs.pull_request }}"
+                    echo ${{ github.event.comment.id }}
+  
         
         
         
