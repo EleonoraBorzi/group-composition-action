@@ -18,4 +18,5 @@ jobs:
           content= cat ./data.json
           echo "::set-output name=packageJson::$content"
       - run: |
+          echo "${{packageJson}
           echo "${{fromJson(steps.set_var.outputs.packageJson).version}}"
