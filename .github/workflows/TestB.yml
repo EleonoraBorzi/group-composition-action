@@ -14,8 +14,7 @@ jobs:
     steps:
       - id: set_var
         run: |
-          echo pwd
-          content=`cat data.json`
+          content=`cat ~/data.json`
           # the following lines are only required for multi line json
           content="${content//'%'/'%25'}"
           content="${content//$'\n'/'%0A'}"
