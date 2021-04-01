@@ -7,10 +7,15 @@ on:
 jobs:
     test:
       runs-on: ubuntu-latest
-      env:
-        output2: "some random text"
       steps:
-        - run: echo Hello
+         - shell: bash
+           run: |
+                "testing" > testingArt.txt
+         - name: Upload artifact
+           uses: actions/upload-artifact@v2
+           with:
+             name: testingArt
+             path: testingArt.txt
    
     
             #  key: ${{ secrets.key }} # if run.py requires passwords..etc, set it as secrets
