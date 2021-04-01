@@ -21,7 +21,7 @@ jobs:
             #    headBranch = echo "$(jq -r '.pull_request.head.ref' <<< "$githubjson")"
              #   echo "::set-output name=headBr::$headBranch"
               #  baseRepo = echo "$(jq -r '.pull_request.base.repo.full_name' <<< "$githubjson")"
-                echo "::set-output name=baseRe::$baseRepo"
+         #       echo "::set-output name=baseRe::$baseRepo"
               #  headRepo = echo "$(jq -r '.pull_request.head.repo.full_name' <<< "$githubjson")"
               #  echo "::set-output name=headRe::$headRepo"
                 
