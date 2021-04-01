@@ -15,11 +15,11 @@ jobs:
                 filter_pull_request: '.pull_request.commits'
             - id: saveJson
               run: |
-                githubjson=`cat $GITHUB_EVENT_PATH`
+                githubjson= cat $GITHUB_EVENT_PATH
                 baseBranch = `echo "$(jq -r '.pull_request.base.ref' <<< "$githubjson")"`
                 headBranch = `echo "$(jq -r '.pull_request.head.ref' <<< "$githubjson")"`
-                baseRepo = `echo "$(jq -r '.pull_request.base.repo.full_name"' <<< "$githubjson")"`
-                headRepo = `echo "$(jq -r '.pull_request.head.repo.full_name"' <<< "$githubjson")"`
+                baseRepo = `echo "$(jq -r '.pull_request.base.repo.full_name' <<< "$githubjson")"`
+                headRepo = `echo "$(jq -r '.pull_request.head.repo.full_name' <<< "$githubjson")"`
   
   
         
