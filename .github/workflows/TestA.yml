@@ -17,13 +17,13 @@ jobs:
               run: |
                 githubjson=`cat $GITHUB_EVENT_PATH`
                 baseBranch = `echo "$(jq -r '.pull_request.base.ref' <<< "$githubjson")"`
-                echo '::set-output name=baseBranch::baseBranch'
+                echo '::set-output name=baseBranch::$baseBranch'
                 
                 headBranch = `echo "$(jq -r '.pull_request.head.ref' <<< "$githubjson")"`
                 echo '::set-output name=headBranch::headBranch'
                
                 baseRepo = `echo "$(jq -r '.pull_request.base.repo.full_name"' <<< "$githubjson")"`
-                echo '::set-output name=bbaseRepo::baseRepo'
+                echo '::set-output name=baseRepo::baseRepo'
                 headRepo = `echo "$(jq -r '.pull_request.head.repo.full_name"' <<< "$githubjson")"`
                 echo '::set-output name=headRepo::headRepo'
   
