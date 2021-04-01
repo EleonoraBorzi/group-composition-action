@@ -26,6 +26,13 @@ jobs:
               with:
                 filter_push: '.commits[].author'
                 filter_pull_request: '.pull_request.commits'
+            - name: get version
+              id: version
+              uses: notiz-dev/github-action-json-property@release
+              with: 
+               path: 'gh-payload.json'
+               prop_path: 'after'
+            - run: echo ${{steps.version.outputs.prop}}
   
         
         
