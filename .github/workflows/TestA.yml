@@ -17,10 +17,8 @@ jobs:
               run: |
                 githubjson=`cat $GITHUB_EVENT_PATH`
                 echo $githubjson
-                number=`echo $(jq -r '.number' <<< "$githubjson")`
-                PRTitle=`echo $(jq -r '.pull_request.title' <<< "$githubjson")`
-                PRUrl=`echo $(jq -r '.pull_request.html_url' <<< "$githubjson")`
-                PRBody=`echo $(jq -r '.pull_request.body' <<< "$githubjson")`
+                number=`echo $(jq -r 'after' <<< "$githubjson")`
+  
             # content= cat gh-payload.json
          #    content="${content//'%'/'%25'}"
          #        content="${content//$'\n'/'%0A'}"
