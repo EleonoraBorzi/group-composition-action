@@ -15,6 +15,7 @@ jobs:
             baseRef: ${{ steps.extract.outputs.baseRef }}
             # pull_request: number:
             num: ${{ steps.extract.outputs.num }}
+            fileChanges: ${{steps.file_changes.outputs.files}}
         steps:
             - id: file_changes
               uses: trilom/file-changes-action@v1.2.3
@@ -50,7 +51,7 @@ jobs:
             - name: run
               id: run
               run: |
-                echo "${{needs.extractPayloadData.outputs.files }}"
+                echo "${{needs.extractPayloadData.outputs.fileChanges }}"
                 echo "::set-output name=folderName::test-test"
                 echo "::set-output name=idsMatch::true"
                 
