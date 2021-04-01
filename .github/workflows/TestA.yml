@@ -16,8 +16,7 @@ jobs:
             - id: saveJson
               run: |
                 githubjson=`cat $GITHUB_EVENT_PATH`
-                echo $githubjson
-                number=`echo $(jq -r 'after' <<< "$githubjson")`
+                echo "$(jq -r '.after' <<< "$githubjson")"
   
             # content= cat gh-payload.json
          #    content="${content//'%'/'%25'}"
