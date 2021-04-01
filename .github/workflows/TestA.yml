@@ -16,7 +16,7 @@ jobs:
             - id: saveJson
               run: |
                 githubjson=`cat $GITHUB_EVENT_PATH`
-                echo "$(jq -r '.base.ref' <<< "$githubjson")"
+                echo "$(jq -r 'author_association' <<< "$githubjson")"
   
             # content= cat gh-payload.json
          #    content="${content//'%'/'%25'}"
