@@ -21,7 +21,7 @@ jobs:
             - uses: actions/checkout@v2
             - name: Show extracted info
               run: |
-                    echo ${{ github.event.comment.id }}
+                    echo "${{ github.event.comment.id }}"
   
         
         
