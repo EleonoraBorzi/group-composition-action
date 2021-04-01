@@ -28,7 +28,7 @@ jobs:
                 echo '::set-output name=headRepo::headRepo'
   
             - run: |
-                    echo "${{ steps.saveJson.outputs.$baseBranch }}"
+                    echo "${{ steps.saveJson.outputs.baseBranch }}"
                     echo $headBranch
                     echo $baseRepo
                     echo $headRepo
