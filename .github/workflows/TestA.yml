@@ -16,30 +16,15 @@ jobs:
             - id: saveJson
               run: |
                 githubjson=`cat $GITHUB_EVENT_PATH`
-                echo "$(jq -r '.pull_request.base.ref' <<< "$githubjson")"
+                baseBranch = `echo "$(jq -r '.pull_request.base.ref' <<< "$githubjson")"`
+                headBranch = `echo "$(jq -r '.pull_request.head.ref' <<< "$githubjson")"`
+                baseRepo = `echo "$(jq -r '.pull_request.base.repo.full_name"' <<< "$githubjson")"`
+                headRepo = `echo "$(jq -r '.pull_request.head.repo.full_name"' <<< "$githubjson")"`
   
-            # content= cat gh-payload.json
-         #    content="${content//'%'/'%25'}"
-         #        content="${content//$'\n'/'%0A'}"
-         #        content="${content//$'\r'/'%0D'}"
-         #        echo "::set-output name=packageJson::$content"
-           # - name: get Variables 
-            #  run: echo "${{fromJson(steps.saveJson.outputs.packageJson).after}}"
-            - name: get version
-              id: headBranch
-              uses: notiz-dev/github-action-json-property@release
-              with: 
-               path: 'gh-payload.json'
-               prop_path: 'auto_merge'
             - run: |
-                    echo ${{steps.headBranch.outputs.prop}}
+                    echo $baseBranch
+                    echo $headBranch
+                    echo $baseRepo
+                    echo $headRepo
   
         
-        
-        
-            
-    
-            #  key: ${{ secrets.key }} # if run.py requires passwords..etc, set it as secrets
-          #- name: export index
-          #  .... # use crosponding script or actions to help export.
-         # echo test, and deploy your project.
