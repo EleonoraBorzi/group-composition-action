@@ -22,11 +22,10 @@ jobs:
             fileChanges: ${{steps.file_changes.outputs.files}}
         steps:
             - uses: actions/checkout@v2
-            - name: Show extracted info
-              run: |
-                    echo "Working"
-                    echo "$ID"
-                    echo "$test"
+            - uses: Dovyski/payload-info-action@master
+              with:
+                filter_push: '.commits[].author'
+                filter_pull_request: '.pull_request.commits'
   
         
         
