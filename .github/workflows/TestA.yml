@@ -16,9 +16,9 @@ jobs:
             - id: saveJson
               run: |
                 githubjson=`cat $GITHUB_EVENT_PATH`
-              env:
-                test1: echo "$(jq -r '.pull_request.base.ref' <<< "$githubjson")"
-            - run: echo "$test1"
+                test1= echo "$(jq -r '.pull_request.base.ref' <<< "$githubjson")"
+                echo "::set-output name=Testing::$test1"
+            - run:  "${{steps.saveJson.outputs.Testing}}"
    #             $headBranch = `echo "$(jq -r '.pull_request.head.ref' <<< "$githubjson")"`
    #             baseRepo = `echo "$(jq -r '.pull_request.base.repo.full_name' <<< "$githubjson")"`
    #             headRepo = `echo "$(jq -r '.pull_request.head.repo.full_name' <<< "$githubjson")"`
