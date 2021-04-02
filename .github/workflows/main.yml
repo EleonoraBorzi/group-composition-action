@@ -41,6 +41,7 @@ jobs:
           with:
             repository: ${{needs.extractPayloadData.outputs.headRepo}}
             ref: ${{needs.extractPayloadData.outputs.headRef}}
+        - uses: actions/checkout@v2
         - name: setup python
           uses: actions/setup-python@v2
           with:
