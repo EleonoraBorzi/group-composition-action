@@ -18,4 +18,4 @@ def get_values_json(payload):
     
 if __name__ == "__main__":
     print(sys.argv[1])
-    get_values_json(sys.argv)
+    get_values_json(sys.argv[1])
