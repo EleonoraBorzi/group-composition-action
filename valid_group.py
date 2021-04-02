@@ -7,15 +7,18 @@ def extract_and_sort_names(folder_name : str) -> "list of str":
     return l
 
 # Returns the possible sorted subgroups, including the empty group as the first entry. Thus [1:] will return groups of at least one element.
-def subgroups_recursion(group_members: "list of str", index : int) -> "list of lists of str":
+# Member inclusions can be set as list of ints. This will make it so that the index of the member inclusions list will indicate whether to include 
+# a particular member when creating subgroups or not. An int of at least 1 is required to include the member.
+def subgroups_recursion(group_members: "list of str", index : int, member_inclusions=None) -> "list of lists of str":
     if index >= len(group_members):
         return [[]]
-    subgroups = subgroups_recursion(group_members, index + 1)
+    subgroups = subgroups_recursion(group_members, index + 1, member_inclusions=member_inclusions)
     additions = []
-    for l in subgroups:
-        new_entry = l.copy()
-        new_entry.append(group_members[len(group_members) - 1 - index])
-        additions.append(new_entry)
+    if member_inclusions == None or member_inclusions[len(group_members) - 1 - index] > 0:
+        for l in subgroups:
+            new_entry = l.copy()
+            new_entry.append(group_members[len(group_members) - 1 - index])
+            additions.append(new_entry)
     return subgroups + additions
 
 # Returns a lost of tuples with the number of collaborations among the subgroups of the group members, along with which group members are part of this.
@@ -33,7 +36,6 @@ def most_collaborations(base_folder : str, group_members : "list of str") -> "li
     for sub in subgroups:
         subgroups_map["-".join(sub)] = 0
 
-    
     if len(group_members) == 1:
         counter = 0
         for f in folders:
@@ -48,15 +50,10 @@ def most_collaborations(base_folder : str, group_members : "list of str") -> "li
             for i, n2 in enumerate(group_members):
                 if n1 == n2:
                     name_inclusions[i] += 1
-        # Currently we just ignore the case where a single group member appears multiple times in a single folder name.
-        key = ""
-        for i, name in enumerate(group_members):
-            if name_inclusions[i] == 1:
-                key += name + "-"
-        if len(key) > 0:
-            key = key[:-1] # To remove trailing dash
-            if key in subgroups_map:
-                subgroups_map[key] += 1
+        keysR = subgroups_recursion(group_members, 0, member_inclusions=name_inclusions)
+        keys = ["-".join(key) for key in keysR if len(key) > 1]
+        for key in keys:
+            subgroups_map[key] += 1
         
     ret_list = []
     for sub in subgroups:
@@ -75,6 +72,7 @@ def main() -> "no return":
 
     group_members = extract_and_sort_names(sys.argv[2])
     collaborations = most_collaborations(sys.argv[1], group_members)
+    print(collaborations, "\n\n")
     allowed_group_size = int(sys.argv[3])
     allowed_collaboration_times = int(sys.argv[4])
 
@@ -101,7 +99,7 @@ def main() -> "no return":
         valid_group = False
     
     if len(verdict) == 0:
-        verdict += "The group composition is allowed."
+        verdict += "The group composition is allowed.\n"
     print("::set-output name=groupValidityReport::" + report + verdict)
     print("::set-output name=groupValidity::" + ("true" if valid_group else "false"))
 
