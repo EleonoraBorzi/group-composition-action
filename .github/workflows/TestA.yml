@@ -19,7 +19,7 @@ jobs:
                 python-version: 3.8 #install the python needed
             - id: runScript
               run: |
-                githubjson=`cat 0GITHUB_EVENT_PATH`
+                githubjson=`cat $GITHUB_EVENT_PATH`
                 python getJson.py $githubjson
             #    baseBranch= jq -r '.pull_request.base.ref' <<< "$githubjson"
              #   echo "::set-output name=baseBr::$baseBranch"
