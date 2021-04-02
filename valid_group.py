@@ -6,14 +6,6 @@ def extract_and_sort_names(folder_name : str) -> "list of str":
     l.sort()
     return l
 
-def same_names(a : list, b : list) -> bool:
-    if len(a) != len(b):
-        return False
-    for i in range(len(a)):
-        if a[i] != b[i]:
-            return False
-    return True
-
 # Returns the possible sorted subgroups, including the empty group as the first entry. Thus [1:] will return groups of at least one element.
 def subgroups_recursion(group_members: "list of str", index : int) -> "list of lists of str":
     if index >= len(group_members):
@@ -47,7 +39,7 @@ def most_collaborations(base_folder : str, group_members : "list of str") -> "li
         for f in folders:
             if f == group_members[0]:
                 counter += 1
-        return [(counter, group_members[0])]
+        return [(counter, [group_members[0]])]
 
     for f in folders:
         name_inclusions = [0 for _ in group_members]
@@ -56,27 +48,20 @@ def most_collaborations(base_folder : str, group_members : "list of str") -> "li
             for i, n2 in enumerate(group_members):
                 if n1 == n2:
                     name_inclusions[i] += 1
-        # TODO: What do we do if one group member name appears twice or more in a folder name?
+        # Currently we just ignore the case where a single group member appears multiple times in a single folder name.
         key = ""
         for i, name in enumerate(group_members):
             if name_inclusions[i] == 1:
                 key += name + "-"
         if len(key) > 0:
             key = key[:-1] # To remove trailing dash
-            subgroups_map[key] += 1
+            if key in subgroups_map:
+                subgroups_map[key] += 1
         
-        
-    #print(folders)
-    #print(subgroups)
-
     ret_list = []
     for sub in subgroups:
         ret_list.append((subgroups_map["-".join(sub)], sub))
     return ret_list
-
-print(most_collaborations(".", ["a", "b", "c"]))
-print(most_collaborations(".", ["a"]))
-
 
 # Expects four command line arguments in the following order: 
 # - a string with the path to the base folder, 
@@ -90,8 +75,8 @@ def main() -> "no return":
 
     group_members = extract_and_sort_names(sys.argv[2])
     collaborations = most_collaborations(sys.argv[1], group_members)
-    allowed_group_size = sys.argv[3]
-    allowed_collaboration_times = sys.argv[4]
+    allowed_group_size = int(sys.argv[3])
+    allowed_collaboration_times = int(sys.argv[4])
 
     for num, members in collaborations:
         if num >= allowed_collaboration_times:
@@ -115,5 +100,9 @@ def main() -> "no return":
         verdict += ", but the maximum allowed group size is " + str(allowed_group_size) + ". This group is thus not allowed.\n"
         valid_group = False
     
+    if len(verdict) == 0:
+        verdict += "The group composition is allowed."
     print("::set-output name=groupValidityReport::" + report + verdict)
     print("::set-output name=groupValidity::" + ("true" if valid_group else "false"))
+
+main()
