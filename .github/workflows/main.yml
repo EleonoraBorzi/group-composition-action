@@ -49,6 +49,11 @@ jobs:
         - id: runScript2
           run: |
                 python3 id_match.py ${{needs.extractPayloadData.outputs.fileChanges}} $baseFolder
+        - run: |
+            echo "${{steps.runScript2.outputs.report}}"
+            echo "${{steps.runScript2.outputs.folderName}}"
+            echo "${{steps.runScript2.outputs.idsMatch}}"
+            
 
                 
                 
