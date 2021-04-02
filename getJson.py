@@ -17,5 +17,5 @@ def get_values_json(payload):
     print("::set-output name=headNm::" + head_repo)
     
 if __name__ == "__main__":
-    print(sys.argv)
+    print(sys.argv[1])
     get_values_json(sys.argv)
