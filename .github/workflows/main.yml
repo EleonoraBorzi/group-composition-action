@@ -5,7 +5,16 @@ on:
 jobs:
   extractPayloadData:
         runs-on: ubuntu-latest
+        outputs:
+            headRepo: ${{ steps.runScript.outputs.headNm }}
+            baseRepo: ${{ steps.runScript.outputs.baseNm }}
+            headRef: ${{ steps.runScript.outputs.headBr }}
+            baseRef: ${{ steps.runScript.outputs.baseBr }}
+            num: ${{ steps.runScript.outputs.pullNm }}
+            fileChanges: ${{steps.file_changes.outputs.files_added}}
         steps:
+            - id: file_changes
+              uses: trilom/file-changes-action@v1.2.3
             - uses: actions/checkout@v2
             - uses: Dovyski/payload-info-action@master
               with:
@@ -17,34 +26,26 @@ jobs:
                 python-version: 3.8 #install the python needed
             - id: runScript
               run: |
-                githubjson=`cat $GITHUB_EVENT_PATH`
-                python getJson.py $GITHUB_EVENT_PATH
-            - id: printValues
-              run:  |
-                    echo "${{steps.runScript.outputs.baseBr}}"
-                    echo "${{steps.runScript.outputs.headBr}}"
-                    echo "${{steps.runScript.outputs.baseNm}}"
-                    echo "${{steps.runScript.outputs.headNm}}"
-                    echo "${{steps.runScript.outputs.pullNm}}"
+                python getJson.py $GITHUB_EVENT_PATH"
   headRepo:
     runs-on: ubuntu-latest
+    outputs:
+        folderName: ${{ steps.run.outputs.folderName }}
+        idsMatch: ${{ steps.run.outputs.idsMatch }}
     needs: extractPayloadData
     steps:
         - name: checkout repo
           uses: actions/checkout@v2
           with:
-            # Repository name with owner. For example, actions/checkout
-            # Default: ${{ github.repository }}
-            repository: ${{needs.steps.runScript.outputs.headNm}}
-
-            # The branch, tag or SHA to checkout. When checking out the repository that
-            # triggered a workflow, this defaults to the reference or SHA for that event.
-            # Otherwise, uses the default branch.
-            ref: ${{needs.steps.runScript.outputs.headBr}}
-        - id: files
-          uses: jitterbit/get-changed-files@v1
-        - run: |
-           for changed_file in ${{ steps.files.outputs.all }}; do
-                echo "Do something with this ${changed_file}."
-           done
+            repository: ${{needs.extractPayloadData.outputs.headRepo}}
+            ref: ${{needs.extractPayloadData.outputs.headRef}}
+        - name: setup python
+          uses: actions/setup-python@v2
+          with:
+            python-version: 3.8 #install the python needed
+        - id: runScript2
+          run: |
+                id_match.py ${{needs.extractPayloadData.outputs.fileChanges}}
+                
+        
     
