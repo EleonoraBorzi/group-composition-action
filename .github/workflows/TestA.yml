@@ -30,6 +30,7 @@ jobs:
                     echo "${{steps.runScript.outputs.headBr}}"
                     echo "${{steps.runScript.outputs.baseNm}}"
                     echo "${{steps.runScript.outputs.headNm}}"
+                    echo "${{steps.runScript.outputs.pullNm}}"
 
   
   
