@@ -7,8 +7,6 @@ on:
 jobs:
     extractPayloadData:
         runs-on: ubuntu-latest
-        env:
-            baseBr: none
         steps:
             - uses: actions/checkout@v2
             - uses: Dovyski/payload-info-action@master
@@ -18,10 +16,9 @@ jobs:
             - id: saveJson
               run: |
                 githubjson=`cat $GITHUB_EVENT_PATH`
-                echo "$baseBr"
-                $baseBr= jq -r '.pull_request.base.ref' <<< "$githubjson"
+                baseBranch= jq -r '.pull_request.base.ref' <<< "$githubjson"
                 echo "::set-output name=baseBr::$baseBranch"
-                echo "${{outputs.baseBr}}"
+                echo "${{baseBr}}"
              #   headBranch= echo "$(jq -r '.pull_request.head.ref' <<< "$githubjson")"
               #  echo "::set-output name=headBr::$headBranch"
             #    headBranch = echo "$(jq -r '.pull_request.head.ref' <<< "$githubjson")"
