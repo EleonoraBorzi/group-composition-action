@@ -7,7 +7,8 @@ def get_values_json(payload):
     payloads = json.dumps(payload)
     quotes_payload = json.loads(payload)
     print("aight")
-    main_branch = quotes_payload['pull_request']['base']['ref']
+    main_branch = quotes_payload['after']
+    #main_branch = quotes_payload['pull_request']['base']['ref']
     print("Ok")
     print(main_branch)
     head_branch = quotes_payload['pull_request']['head']['ref']
