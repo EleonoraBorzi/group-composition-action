@@ -20,7 +20,7 @@ jobs:
             - id: runScript
               run: |
                 githubjson=`cat $GITHUB_EVENT_PATH`
-                python getJson.py $githubjson
+                python getJson.py `cat $GITHUB_EVENT_PATH`
             #    baseBranch= jq -r '.pull_request.base.ref' <<< "$githubjson"
              #   echo "::set-output name=baseBr::$baseBranch"
             #    echo "${{baseBr}}"
