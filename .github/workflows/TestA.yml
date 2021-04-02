@@ -27,9 +27,9 @@ jobs:
             - id: printValues
               run:  |
                     echo "${{steps.runScript.outputs.baseBr}}"
-                    echo "${{steps.saveJson.outputs.headBr}}"
-                    echo "${{steps.saveJson.outputs.baseNm}}"
-                    echo "${{steps.saveJson.outputs.headNm}}"
+                    echo "${{steps.runScript.outputs.headBr}}"
+                    echo "${{steps.runScript.outputs.baseNm}}"
+                    echo "${{steps.runScript.outputs.headNm}}"
 
   
   
