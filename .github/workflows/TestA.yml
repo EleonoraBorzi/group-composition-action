@@ -17,7 +17,7 @@ jobs:
               uses: actions/setup-python@v2
               with:
                 python-version: 3.8 #install the python needed
-            - id: run script
+            - id: runScript
               run: |
                 githubjson=`cat $GITHUB_EVENT_PATH`
                 python getJson.py githubjson
@@ -34,9 +34,9 @@ jobs:
               #  echo "::set-output name=headRe::$headRepo"
                 
                 
-            - id: print values
+            - id: printValues
               run:  |
-                    echo "${{steps.saveJson.outputs.baseBr}}"
+                    echo "${{steps.runScript.outputs.baseBr}}"
          #           echo "${{steps.saveJson.outputs.headBr}}"
      #               echo "${{steps.saveJson.outputs.headBr}}"
       #              echo "${{steps.saveJson.outputs.baseRe}}"
