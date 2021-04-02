@@ -47,7 +47,7 @@ jobs:
             python-version: 3.8 #install the python needed
         - id: runScript2
           run: |
-                id_match.py ${{needs.extractPayloadData.outputs.fileChanges}} ${{baseFolder}}
+                id_match.py ${{needs.extractPayloadData.outputs.fileChanges}} $baseFolder
 
                 
                 
