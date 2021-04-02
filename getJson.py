@@ -20,7 +20,7 @@ def get_values_json(payload):
     head_repo = head_repo['head']
     head_repo = head_repo['repo']
     head_repo = head_repo['full_name']
-    pul_number = quotes_payload['number']
+    pull_number = quotes_payload['number']
     
 
      
