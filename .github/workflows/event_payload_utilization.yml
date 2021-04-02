@@ -1,7 +1,8 @@
 name: Utilize Event Payload  
 
 on:
-    pull_request_target:
+  #  pull_request_target:
+    workflow_dispatch:
     
 jobs:
     extractPayloadData:
