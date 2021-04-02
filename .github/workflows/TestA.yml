@@ -16,11 +16,12 @@ jobs:
             - id: saveJson
               run: |
                 githubjson=`cat $GITHUB_EVENT_PATH`
-                baseBranch= `echo "$(jq -r '.pull_request.base.ref' <<< "$githubjson")"`
-                echo "::set-output name=baseBr::$baseBranch"
-                echo "$baseBranch"
-                headBranch= echo "$(jq -r '.pull_request.head.ref' <<< "$githubjson")"
-                echo "::set-output name=headBr::$headBranch"
+                basebranch = `echo "$(jq -r '.pull_request.base.ref' <<< "$githubjson")"`
+              #  baseBranch= `echo "$(jq -r '.pull_request.base.ref' <<< "$githubjson")"`
+             #   echo "Test"
+             #   echo "::set-output name=baseBr::$baseBranch"
+             #   headBranch= echo "$(jq -r '.pull_request.head.ref' <<< "$githubjson")"
+              #  echo "::set-output name=headBr::$headBranch"
             #    headBranch = echo "$(jq -r '.pull_request.head.ref' <<< "$githubjson")"
              #   echo "::set-output name=headBr::$headBranch"
               #  baseRepo = echo "$(jq -r '.pull_request.base.repo.full_name' <<< "$githubjson")"
@@ -29,9 +30,9 @@ jobs:
               #  echo "::set-output name=headRe::$headRepo"
                 
                 
-            - run:  |
-                    echo "${{steps.saveJson.outputs.baseBr}}"
-                    echo "${{steps.saveJson.outputs.headBr}}"
+          #  - run:  |
+         #           echo "${{steps.saveJson.outputs.baseBr}}"
+         #           echo "${{steps.saveJson.outputs.headBr}}"
      #               echo "${{steps.saveJson.outputs.headBr}}"
       #              echo "${{steps.saveJson.outputs.baseRe}}"
        #             echo "${{steps.saveJson.outputs.headRe}}"
