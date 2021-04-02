@@ -16,7 +16,7 @@ jobs:
             - id: saveJson
               run: |
                 githubjson=`cat $GITHUB_EVENT_PATH`
-                echo "$githubjson"
+                echo "$(jq -r '.pull_request.base.ref' <<< "$githubjson")"
               #  baseBranch= `echo "$(jq -r '.pull_request.base.ref' <<< "$githubjson")"`
              #   echo "Test"
              #   echo "::set-output name=baseBr::$baseBranch"
