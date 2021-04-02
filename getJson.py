@@ -34,5 +34,7 @@ if __name__ == "__main__":
     path = sys.argv[1]
     with open(path, 'r') as myfile:
       data=myfile.read()
-    print(data)
-    get_values_json(data)
+    try:
+      get_values_json(data)
+    except: 
+      print("::set-output name=isPullReq::" + str(false))
