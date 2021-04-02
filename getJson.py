@@ -21,4 +21,5 @@ if __name__ == "__main__":
     with open(path, 'r') as myfile:
       data=myfile.read()
     print(data)
+    print("Ok")
     get_values_json(data)
