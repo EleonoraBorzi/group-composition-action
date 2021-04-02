@@ -36,6 +36,7 @@ def check_readme(list_id, path_readme):
 
 
 if __name__ == "__main__":
+    print(sys.argv)
     file_changes = sys.argv[1][1:-1].split(",")
     base_folder = sys.argv[2]
     base_folder = base_folder.split("/")[:-1]
