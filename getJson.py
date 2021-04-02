@@ -6,15 +6,22 @@ import json
 def get_values_json(payload):
     payloads = json.dumps(payload)
     quotes_payload = json.loads(payload)
-    #main_branch = quotes_payload['pull_request']['base']['ref']
-    print("Ok")
-   # print(main_branch)
+    main_branch = quotes_payload['pull_request']
+    main_branch = main_branch['base']
+    main_branch = main_branch['ref']
+    print(main_branch)
     head_branch = quotes_payload['pull_request']
     head_branch = head_branch['head']
     head_branch = head_branch['ref']
     print(head_branch)
-    main_repo = quotes_payload['pull_request']['base']['repo']['full_name']
-    head_repo = quotes_payload['pull_request']['head']['repo']['full_name']
+    main_repo = quotes_payload['pull_request']
+    main_repo = main_repo['base']
+    main_repo = main_repo['repo']
+    main_repo = main_repo['full_name']
+    head_repo = quotes_payload['pull_request']
+    head_repo = head_repo['head']
+    head_repo = head_repo['repo']
+    head_repo = head_repo['full_name']
      
     print("::set-output name=baseBr::" + main_branch)
     print("::set-output name=headBr::" + head_branch)
