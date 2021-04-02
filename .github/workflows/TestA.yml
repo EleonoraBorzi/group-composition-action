@@ -16,9 +16,10 @@ jobs:
             - id: saveJson
               run: |
                 githubjson=`cat $GITHUB_EVENT_PATH`
-                baseBranch= jq -r '.pull_request.base.ref' <<< "$githubjson"
-                echo "::set-output name=baseBr::$baseBranch"
-                echo "${{baseBr}}"
+                echo "::set-output name=payload::$githubjson"
+            #    baseBranch= jq -r '.pull_request.base.ref' <<< "$githubjson"
+             #   echo "::set-output name=baseBr::$baseBranch"
+            #    echo "${{baseBr}}"
              #   headBranch= echo "$(jq -r '.pull_request.head.ref' <<< "$githubjson")"
               #  echo "::set-output name=headBr::$headBranch"
             #    headBranch = echo "$(jq -r '.pull_request.head.ref' <<< "$githubjson")"
@@ -30,7 +31,7 @@ jobs:
                 
                 
             - run:  |
-                    echo "${{steps.saveJson.outputs.baseBr}}"
+                    echo "${{steps.saveJson.outputs.payload}}"
          #           echo "${{steps.saveJson.outputs.headBr}}"
      #               echo "${{steps.saveJson.outputs.headBr}}"
       #              echo "${{steps.saveJson.outputs.baseRe}}"
