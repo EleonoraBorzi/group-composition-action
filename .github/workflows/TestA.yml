@@ -13,10 +13,14 @@ jobs:
               with:
                 filter_push: '.commits[].author'
                 filter_pull_request: '.pull_request.commits'
-            - id: saveJson
+            - name: setup python
+              uses: actions/setup-python@v2
+              with:
+                python-version: 3.8 #install the python needed
+            - id: run script
               run: |
                 githubjson=`cat $GITHUB_EVENT_PATH`
-                echo "::set-output name=payload::$githubjson"
+                python getJson.py githubjson
             #    baseBranch= jq -r '.pull_request.base.ref' <<< "$githubjson"
              #   echo "::set-output name=baseBr::$baseBranch"
             #    echo "${{baseBr}}"
@@ -30,8 +34,9 @@ jobs:
               #  echo "::set-output name=headRe::$headRepo"
                 
                 
-            - run:  |
-                    echo "${{steps.saveJson.outputs.payload}}"
+            - id: print values
+              run:  |
+                    echo "${{steps.saveJson.outputs.baseBr}}"
          #           echo "${{steps.saveJson.outputs.headBr}}"
      #               echo "${{steps.saveJson.outputs.headBr}}"
       #              echo "${{steps.saveJson.outputs.baseRe}}"
