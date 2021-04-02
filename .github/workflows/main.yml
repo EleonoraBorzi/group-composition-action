@@ -1,11 +1,9 @@
-
-name: Test A
-    
+name: Main Workflow 
 on:
-    [push, pull_request]
+    pull_request_target:
     
 jobs:
-    extractPayloadData:
+  extractPayloadData:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
@@ -21,9 +19,6 @@ jobs:
               run: |
                 githubjson=`cat $GITHUB_EVENT_PATH`
                 python getJson.py $GITHUB_EVENT_PATH
-  
-                
-                
             - id: printValues
               run:  |
                     echo "${{steps.runScript.outputs.baseBr}}"
@@ -31,7 +26,25 @@ jobs:
                     echo "${{steps.runScript.outputs.baseNm}}"
                     echo "${{steps.runScript.outputs.headNm}}"
                     echo "${{steps.runScript.outputs.pullNm}}"
+  headRepo:
+    runs-on: ubuntu-latest
+    needs: extractPayloadData
+    steps:
+        - name: checkout repo
+          uses: actions/checkout@v2
+          with:
+            # Repository name with owner. For example, actions/checkout
+            # Default: ${{ github.repository }}
+            repository: ${{needs.steps.runScript.outputs.headNm}}
 
-  
-  
-        
+            # The branch, tag or SHA to checkout. When checking out the repository that
+            # triggered a workflow, this defaults to the reference or SHA for that event.
+            # Otherwise, uses the default branch.
+            ref: ${{needs.steps.runScript.outputs.headBr}}
+        - id: files
+          uses: jitterbit/get-changed-files@v1
+        - run: |
+           for changed_file in ${{ steps.files.outputs.all }}; do
+                echo "Do something with this ${changed_file}."
+           done
+    
