@@ -28,7 +28,7 @@ def get_values_json(payload):
     print("::set-output name=headBr::" + head_branch)
     print("::set-output name=baseNm::" + main_repo)
     print("::set-output name=headNm::" + head_repo)
-    print("::set-output name=pullNm::" + pull_number)
+    print("::set-output name=pullNm::" + str(pull_number))
     
 if __name__ == "__main__":
     path = sys.argv[1]
