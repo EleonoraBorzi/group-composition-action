@@ -37,4 +37,4 @@ if __name__ == "__main__":
     try:
       get_values_json(data)
     except: 
-      print("::set-output name=isPullReq::" + str(false))
+      print("::set-output name=isPullReq::" + "false")
