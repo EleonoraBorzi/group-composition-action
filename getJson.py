@@ -9,11 +9,9 @@ def get_values_json(payload):
     main_branch = quotes_payload['pull_request']
     main_branch = main_branch['base']
     main_branch = main_branch['ref']
-    print(main_branch)
     head_branch = quotes_payload['pull_request']
     head_branch = head_branch['head']
     head_branch = head_branch['ref']
-    print(head_branch)
     main_repo = quotes_payload['pull_request']
     main_repo = main_repo['base']
     main_repo = main_repo['repo']
@@ -22,11 +20,15 @@ def get_values_json(payload):
     head_repo = head_repo['head']
     head_repo = head_repo['repo']
     head_repo = head_repo['full_name']
+    pul_number = quotes_payload['number']
+    
+
      
     print("::set-output name=baseBr::" + main_branch)
     print("::set-output name=headBr::" + head_branch)
     print("::set-output name=baseNm::" + main_repo)
     print("::set-output name=headNm::" + head_repo)
+    print("::set-output name=pullNm::" + pull_number)
     
 if __name__ == "__main__":
     path = sys.argv[1]
