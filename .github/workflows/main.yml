@@ -1,8 +1,9 @@
 name: Main Workflow 
 on:
     pull_request_target:
-    
-jobs:
+env:
+    baseFodler: "contributions/"
+jobs: 
   extractPayloadData:
         runs-on: ubuntu-latest
         outputs:
@@ -31,6 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
         folderName: ${{ steps.run.outputs.folderName }}
+        report: ${{ steps.run.outputs.report }}
         idsMatch: ${{ steps.run.outputs.idsMatch }}
     needs: extractPayloadData
     steps:
@@ -45,7 +47,9 @@ jobs:
             python-version: 3.8 #install the python needed
         - id: runScript2
           run: |
-                id_match.py ${{needs.extractPayloadData.outputs.fileChanges}}
+                id_match.py ${{needs.extractPayloadData.outputs.fileChanges}} ${{baseFolder}}
+
+                
                 
         
     
