@@ -59,13 +59,13 @@ jobs:
             echo "${{steps.runScript2.outputs.folderName}}"
             echo "${{steps.runScript2.outputs.idsMatch}}"
         - name: Fail status if ID:s couldn't be validated
-          if: ${{ steps.runScript2.outputs.idsMatch == "false" }}
+          if: ${{ steps.runScript2.outputs.idsMatch == false }}
           run: exit 1
             
   baseRepo:
         runs-on: ubuntu-latest
         needs: [extractPayloadData, headRepo]
-        if: ${{ needs.headRepo.outputs.idsMatch == "true" }}
+        if: ${{ needs.headRepo.outputs.idsMatch == true }}
         outputs:
             report:   ${{ steps.runScript3.outputs.groupValidityReport }}
             validity: ${{ steps.runScript3.outputs.groupValidity }}
@@ -87,7 +87,7 @@ jobs:
                 echo "${{steps.runScript3.outputs.groupValidityReport}}"
                 echo "${{steps.runScript3.outputs.groupValidity}}"
             - name: Fail status if group isn't allowed
-              if: ${{ steps.runScript3.outputs.groupValidity == "false" }}
+              if: ${{ steps.runScript3.outputs.groupValidity == false }}
               run: exit 1
                 
   postComment:
