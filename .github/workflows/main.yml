@@ -80,7 +80,7 @@ jobs:
               with:
                 python-version: 3.8 #install the python needed
             - run: |
-                python valid_group.py $baseFolder ${{needs.headRepo.outputs.folderName}} $maxGroupSize $maxCollaborationTimes | echo
+                (python valid_group.py $baseFolder ${{needs.headRepo.outputs.folderName}} $maxGroupSize $maxCollaborationTimes) | echo
             - name: runScript3
               id: tmp
               #python valid_group.py $baseFolder ${{needs.headRepo.outputs.folderName}} $maxGroupSize $maxCollaborationTimes
@@ -92,7 +92,11 @@ jobs:
                 echo "::set-output name=packageJson::$jsonOutput"
             - id: runScript3
               run: |
-                echo "::set-output name=groupValidityReport::${{fromJson(steps.tmp.outputs.packageJson).report}}"
+                report=${{fromJson(steps.tmp.outputs.packageJson).report}}
+                report="${report//'%'/'%25'}"
+                report="${report//$'\n'/'%0A'}"
+                report="${report//$'\r'/'%0D'}"
+                echo "::set-output name=groupValidityReport::$report"
                 echo "::set-output name=groupValidity::${{fromJson(steps.tmp.outputs.packageJson).validity}}"
                 
                 
