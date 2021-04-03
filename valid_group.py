@@ -1,3 +1,4 @@
+import json
 import os
 import sys
 
@@ -101,8 +102,9 @@ def main() -> "no return":
     
     if len(verdict) == 0:
         verdict += "The group composition is allowed.\n"
-    print("::set-output name=groupValidityReport::" + report + verdict)
-    print("::set-output name=groupValidity::" + ("true" if valid_group else "false"))
+    #print("::set-output name=groupValidityReport::" + report + verdict)
+    #print("::set-output name=groupValidity::" + ("true" if valid_group else "false"))
+    print(json.dumps({"report":report+verdict, "validity":("true" if valid_group else "false")}))
 
 if __name__ == "__main__":
     main()
