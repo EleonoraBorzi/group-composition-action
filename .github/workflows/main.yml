@@ -83,6 +83,7 @@ jobs:
               id: runScript3
               #python valid_group.py $baseFolder ${{needs.headRepo.outputs.folderName}} $maxGroupSize $maxCollaborationTimes
               run: |
+                python valid_group.py $baseFolder ${{needs.headRepo.outputs.folderName}} $maxGroupSize $maxCollaborationTimes | echo
                 jsonOutput=$(python valid_group.py $baseFolder ${{needs.headRepo.outputs.folderName}} $maxGroupSize $maxCollaborationTimes)
                 jsonOutput="${jsonOutput//'%'/'%25'}"
                 jsonOutput="${jsonOutput//$'\n'/'%0A'}"
