@@ -69,7 +69,6 @@ jobs:
         outputs:
             report:   ${{ steps.runScript3.outputs.groupValidityReport }}
             validity: ${{ steps.runScript3.outputs.groupValidity }}
-            test : ${{ steps.runScript3.outputs.test }}
         steps:
             - name: checkout repo
               uses: actions/checkout@v2
@@ -82,13 +81,18 @@ jobs:
                 python-version: 3.8 #install the python needed
             - name: runScript3
               id: runScript3
+              #python valid_group.py $baseFolder ${{needs.headRepo.outputs.folderName}} $maxGroupSize $maxCollaborationTimes
               run: |
-                outputString=$(python valid_group.py $baseFolder ${{needs.headRepo.outputs.folderName}} $maxGroupSize $maxCollaborationTimes)
-                outputString="${outputString//'%'/'%25'}"
-                outputString="${outputString//$'\n'/'%0A'}"
-                outputString="${outputString//$'\r'/'%0D'}"
-                echo "::set-output name=test::$outputString"
-                python valid_group.py $baseFolder ${{needs.headRepo.outputs.folderName}} $maxGroupSize $maxCollaborationTimes
+                jsonOutput=$(python valid_group.py $baseFolder ${{needs.headRepo.outputs.folderName}} $maxGroupSize $maxCollaborationTimes)
+                jsonOutput="${jsonOutput//'%'/'%25'}"
+                jsonOutput="${jsonOutput//$'\n'/'%0A'}"
+                jsonOutput="${jsonOutput//$'\r'/'%0D'}"
+                echo "::set-output name=packageJson::$jsonOutput"
+                
+                echo "::set-output name=groupValidityReport::${{fromJson(steps.runScript3.outputs.packageJson).report}}"
+                echo "::set-output name=groupValidity::${{fromJson(steps.runScript3.outputs.packageJson).validity}}"
+                
+                
             - run: |
                 echo "${{steps.runScript3.outputs.groupValidityReport}}"
                 echo "${{steps.runScript3.outputs.groupValidity}}"
@@ -109,5 +113,4 @@ jobs:
                 body: |
                     ${{needs.headRepo.outputs.report}}
                     ${{needs.baseRepo.outputs.report}}
-                    ${{needs.baseRepo.outputs.test}}
                 reactions: eyes, heart, hooray, laugh
