@@ -92,7 +92,7 @@ jobs:
                 echo "::set-output name=packageJson::$jsonOutput"
             - id: runScript3
               run: |
-                report=${{fromJson(steps.tmp.outputs.packageJson).report}}
+                report="${{fromJson(steps.tmp.outputs.packageJson).report}}"
                 report="${report//'%'/'%25'}"
                 report="${report//$'\n'/'%0A'}"
                 report="${report//$'\r'/'%0D'}"
