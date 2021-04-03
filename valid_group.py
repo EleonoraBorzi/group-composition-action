@@ -1,6 +1,8 @@
 import os
 import sys
 
+# Given a string "name1-name2-...", returns a list of all strings that are seperated by a hyphen.
+# The strings are also sorted so that e.g. "name1-name2" and "name2-name1" are considered equal.
 def extract_and_sort_names(folder_name : str) -> "list of str":
     l = folder_name.split("-")
     l.sort()
@@ -21,7 +23,7 @@ def subgroups_recursion(group_members: "list of str", index : int, member_inclus
             additions.append(new_entry)
     return subgroups + additions
 
-# Returns a lost of tuples with the number of collaborations among the subgroups of the group members, along with which group members are part of this.
+# Returns a list of tuples with the number of collaborations among the subgroups of the group members, along with which group members are part of this.
 # The subgroups considered are at least of size 2.
 # The special case of a group with a single members does not count as a subset to anything else but itself.
 def most_collaborations(base_folder : str, group_members : "list of str") -> "list of pairs (int, list of str)":
@@ -102,4 +104,5 @@ def main() -> "no return":
     print("::set-output name=groupValidityReport::" + report + verdict)
     print("::set-output name=groupValidity::" + ("true" if valid_group else "false"))
 
-main()
+if __name__ == "__main__":
+    main()
