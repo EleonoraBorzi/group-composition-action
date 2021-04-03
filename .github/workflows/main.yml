@@ -79,19 +79,21 @@ jobs:
               uses: actions/setup-python@v2
               with:
                 python-version: 3.8 #install the python needed
+            - run: |
+                python valid_group.py $baseFolder ${{needs.headRepo.outputs.folderName}} $maxGroupSize $maxCollaborationTimes | echo
             - name: runScript3
-              id: runScript3
+              id: tmp
               #python valid_group.py $baseFolder ${{needs.headRepo.outputs.folderName}} $maxGroupSize $maxCollaborationTimes
               run: |
-                python valid_group.py $baseFolder ${{needs.headRepo.outputs.folderName}} $maxGroupSize $maxCollaborationTimes | echo
                 jsonOutput=$(python valid_group.py $baseFolder ${{needs.headRepo.outputs.folderName}} $maxGroupSize $maxCollaborationTimes)
                 jsonOutput="${jsonOutput//'%'/'%25'}"
                 jsonOutput="${jsonOutput//$'\n'/'%0A'}"
                 jsonOutput="${jsonOutput//$'\r'/'%0D'}"
                 echo "::set-output name=packageJson::$jsonOutput"
-                
-                echo "::set-output name=groupValidityReport::${{fromJson(steps.runScript3.outputs.packageJson).report}}"
-                echo "::set-output name=groupValidity::${{fromJson(steps.runScript3.outputs.packageJson).validity}}"
+            - id: runScript3
+              run: |
+                echo "::set-output name=groupValidityReport::${{fromJson(steps.tmp.outputs.packageJson).report}}"
+                echo "::set-output name=groupValidity::${{fromJson(steps.tmp.outputs.packageJson).validity}}"
                 
                 
             - run: |
