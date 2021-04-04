@@ -23,11 +23,11 @@ def get_values_json(payload):
     pull_number = quotes_payload['number']
     
 
-   print("::set-output name=baseRef::" + main_branch)
-   print("::set-output name=headRef::" + head_branch)
-   print("::set-output name=baseRepo::" + main_repo)
-   print("::set-output name=headRepo::" + head_repo)
-   print("::set-output name=pullNumber::" + str(pull_number)) 
+    print("::set-output name=baseRef::" + main_branch)
+    print("::set-output name=headRef::" + head_branch)
+    print("::set-output name=baseRepo::" + main_repo)
+    print("::set-output name=headRepo::" + head_repo)
+    print("::set-output name=pullNumber::" + str(pull_number)) 
     
     
    # print("::set-output name=baseBr::" + main_branch)
