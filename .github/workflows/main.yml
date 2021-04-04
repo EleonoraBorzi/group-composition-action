@@ -32,7 +32,7 @@ jobs:
                 python-version: 3.8 #install the python needed
             - id: extractPayload
               run: |
-                python getJson.py $GITHUB_EVENT_PATH
+                python extract_data_payload.py $GITHUB_EVENT_PATH
   
   headRepo:
     runs-on: ubuntu-latest
