@@ -27,7 +27,7 @@ def get_values_json(payload):
     #Extract pull request number 
     pull_number = quotes_payload['number']
     
-
+    #Set all the extracted data as outputs 
     print("::set-output name=baseRef::" + main_branch)
     print("::set-output name=headRef::" + head_branch)
     print("::set-output name=baseRepo::" + main_repo)
