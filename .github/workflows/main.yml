@@ -12,11 +12,11 @@ jobs:
   extractPayloadData:
         runs-on: ubuntu-latest
         outputs:
-            headRepo:    ${{ steps.runScript.outputs.headNm }}
-            baseRepo:    ${{ steps.runScript.outputs.baseNm }}
-            headRef:     ${{ steps.runScript.outputs.headBr }}
-            baseRef:     ${{ steps.runScript.outputs.baseBr }}
-            num:         ${{ steps.runScript.outputs.pullNm }}
+            headRepo:    ${{ steps.extractPayload.outputs.headRepo }}
+            baseRepo:    ${{ steps.extractPayload.outputs.baseRepo }}
+            headRef:     ${{ steps.extractPayload.outputs.headRef }}
+            baseRef:     ${{ steps.extractPayload.outputs.baseRef }}
+            num:         ${{ steps.extractPayload.outputs.pullNumber }}
             filesAdded:  ${{ steps.file_changes.outputs.files_added}}
         steps:
             - id: file_changes
@@ -30,7 +30,7 @@ jobs:
               uses: actions/setup-python@v2
               with:
                 python-version: 3.8 #install the python needed
-            - id: runScript
+            - id: extractPayload
               run: |
                 python getJson.py $GITHUB_EVENT_PATH
   
