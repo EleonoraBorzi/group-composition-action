@@ -22,10 +22,6 @@ jobs:
             - id: file_changes
               uses: trilom/file-changes-action@v1.2.3
             - uses: actions/checkout@v2
-           # - uses: Dovyski/payload-info-action@master
-           #  with:
-            #    filter_push: '.commits[].author'
-           #     filter_pull_request: '.pull_request.commits'
             - name: setup python
               uses: actions/setup-python@v2
               with:
@@ -56,7 +52,7 @@ jobs:
             python-version: 3.8 #install the python needed
         - id: checkIDMatch
           run: |
-                python3 id_match.py ${{needs.extractPayloadData.outputs.filesAdded}} $baseFolder
+                python id_match.py ${{needs.extractPayloadData.outputs.filesAdded}} $baseFolder
         - run: |
             echo "${{steps.checkIDMatch.outputs.report}}"
             echo "${{steps.checkIDMatch.outputs.folderName}}"
