@@ -53,10 +53,6 @@ jobs:
         - id: checkIDMatch
           run: |
                 python id_match.py ${{needs.extractPayloadData.outputs.filesAdded}} $baseFolder
-        - run: |
-            echo "${{steps.checkIDMatch.outputs.report}}"
-            echo "${{steps.checkIDMatch.outputs.folderName}}"
-            echo "${{steps.checkIDMatch.outputs.idsMatch}}"
         - name: Fail status if ID:s couldn't be validated
           if: ${{ steps.checkIDMatch.outputs.idsMatch == 'false' }}
           run: exit 1
