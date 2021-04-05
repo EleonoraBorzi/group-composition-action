@@ -22,10 +22,10 @@ jobs:
             - id: file_changes
               uses: trilom/file-changes-action@v1.2.3
             - uses: actions/checkout@v2
-            - uses: Dovyski/payload-info-action@master
-              with:
-                filter_push: '.commits[].author'
-                filter_pull_request: '.pull_request.commits'
+           # - uses: Dovyski/payload-info-action@master
+           #  with:
+            #    filter_push: '.commits[].author'
+           #     filter_pull_request: '.pull_request.commits'
             - name: setup python
               uses: actions/setup-python@v2
               with:
