@@ -6,7 +6,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: EleonoraBorzis/repo-activity-report-action@main
+      - uses: EleonoraBorzis/repo-activity-report-action@Finaltouches
         with: 
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repo-name:  EleonoraBorzis/group-composition-action
